@@ -1,6 +1,8 @@
 package com.example.navigation.ui.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -10,11 +12,12 @@ import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-
 import com.example.navigation.R
+import com.example.navigation.extensions.dismissError
 import com.example.navigation.extensions.navigateWithAnimations
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.login_fragment.*
+
 
 class LoginFragment : Fragment() {
 
@@ -58,6 +61,9 @@ class LoginFragment : Fragment() {
             findNavController().navigateWithAnimations(R.id.action_loginFragment_to_navigation)
         }
 
+        onchangeText()
+
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             cancelAuthentication()
         }
@@ -78,4 +84,32 @@ class LoginFragment : Fragment() {
         LoginViewModel.INPUT_PASSWORD.first to inputLayoutLoginPassword
     )
 
+    private fun onchangeText() {
+        inputLoginUsername.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                inputLayoutLoginUsername.dismissError()
+            }
+        })
+
+        inputLoginPassword.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                inputLayoutLoginPassword.dismissError()
+            }
+        })
+    }
+
 }
+
+
